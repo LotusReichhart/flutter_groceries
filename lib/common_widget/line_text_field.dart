@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+
+import '../common/color_extension.dart';
+
+class LineTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String title;
+  final String placeholder;
+  final TextInputType? keyboardType;
+  final bool obscureText;
+  final Widget? right;
+
+  const LineTextField({
+    super.key,
+    required this.controller,
+    required this.title,
+    required this.placeholder,
+    this.keyboardType,
+    this.obscureText = false,
+    this.right,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: AppColor.secondaryText,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            suffixIcon: right,
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            hintText: placeholder,
+            hintStyle: TextStyle(color: AppColor.placeholder, fontSize: 17),
+          ),
+        ),
+        Container(
+          width: double.maxFinite,
+          height: 1,
+          color: const Color(0xffE2E2E2),
+        ),
+      ],
+    );
+  }
+}
