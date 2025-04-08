@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:flutter_groceries/view/cart/cart_view.dart';
 import 'package:flutter_groceries/view/explore/explore_view.dart';
 import 'package:flutter_groceries/view/home/home_view.dart';
 
@@ -40,7 +41,7 @@ class _MainTabviewState extends State<MainTabview>
         children: [
           const HomeView(),
           const ExploreView(),
-          Container(),
+          const CartView(),
           Container(),
           Container(),
         ],

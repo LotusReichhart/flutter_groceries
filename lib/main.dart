@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_groceries/common/app_http_overrides.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/view/login/login_view.dart';
-import 'package:flutter_groceries/view/main_tabview/main_tabview.dart';
 import 'package:flutter_groceries/view/splash_view.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:flutter_groceries/view_model/cart_view_model.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences? prefs;
@@ -16,6 +16,7 @@ void main() async {
   HttpOverrides.global = AppHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  Get.put<CartViewModel>(CartViewModel());
 
   runApp(const MyApp());
 }
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return GetMaterialApp(
       title: 'Flutter Groceries',
       theme: ThemeData(

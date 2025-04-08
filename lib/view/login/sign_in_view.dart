@@ -5,6 +5,7 @@ import 'package:flutter_groceries/common_widget/round_button.dart';
 import 'package:flutter_groceries/view/login/login_view.dart';
 import 'package:flutter_groceries/view/login/signup_view.dart';
 import 'package:flutter_groceries/view/login/verification_view.dart';
+import 'package:flutter_groceries/view_model/sign_in_view_model.dart';
 import 'package:get/get.dart';
 
 class SignInView extends StatefulWidget {
@@ -15,6 +16,8 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
+  final signInViewModel = Get.put(SignInViewModel());
+
   TextEditingController textMobile = TextEditingController();
   FlCountryCodePicker flCountryCodePicker = const FlCountryCodePicker();
   late CountryCode countryCode;
@@ -127,7 +130,7 @@ class _SignInViewState extends State<SignInView> {
                       title: "Sign In With Email",
                       bgColor: const Color(0xff5383EC),
                       onPressed: () {
-                        Get.to(() => const LoginView());
+                        signInViewModel.signInWithEmail();
                       },
                     ),
                   ),
@@ -138,7 +141,7 @@ class _SignInViewState extends State<SignInView> {
                     child: RoundButton(
                       title: "Sign Up With Email",
                       onPressed: () {
-                        Get.to(() => const SignupView());
+                        signInViewModel.signUpWithEmail();
                       },
                     ),
                   ),
@@ -163,12 +166,7 @@ class _SignInViewState extends State<SignInView> {
                       icon: "assets/img/gg_logo.png",
                       bgColor: Color(0xff4A66AC),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerificationView(),
-                          ),
-                        );
+                        signInViewModel.signInWithGoogle();
                       },
                     ),
                   ),
@@ -179,7 +177,9 @@ class _SignInViewState extends State<SignInView> {
                       title: "Continue with Facebook",
                       icon: "assets/img/fb_logo.png",
                       bgColor: Color(0xff4A66AC),
-                      onPressed: () {},
+                      onPressed: () {
+                        signInViewModel.signInWithFacebook();
+                      },
                     ),
                   ),
                 ],

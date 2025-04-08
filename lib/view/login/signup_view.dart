@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:get/get.dart';
 import '../../common_widget/line_text_field.dart';
 import '../../common_widget/round_button.dart';
+import '../../view_model/sign_up_view_model.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -12,6 +14,8 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
+  final signUpViewModel = Get.put(SignUpViewModel());
+
   TextEditingController textUsername = TextEditingController();
   TextEditingController textEmail = TextEditingController();
   TextEditingController textPassword = TextEditingController();
@@ -38,7 +42,7 @@ class _SignupViewState extends State<SignupView> {
             elevation: 0,
             leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                signUpViewModel.goBack();
               },
               icon: Icon(
                 Icons.arrow_back_ios_new,
@@ -97,27 +101,29 @@ class _SignupViewState extends State<SignupView> {
                           controller: textEmail,
                         ),
                         SizedBox(height: media.width * 0.05),
-                        LineTextField(
-                          title: "Password",
-                          placeholder: "Enter your password",
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: !isShow,
-                          controller: textPassword,
-                          right: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isShow = !isShow;
-                              });
-                            },
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            icon: Icon(
-                              isShow ? Icons.visibility : Icons.visibility_off,
-                              size: 25,
-                              color: AppColor.textTitle,
+                        Obx(
+                          () => LineTextField(
+                            title: "Password",
+                            placeholder: "Enter your password",
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: !signUpViewModel.isShowPassword.value,
+                            controller: signUpViewModel.textPassword.value,
+                            right: IconButton(
+                              onPressed: () {
+                                signUpViewModel.showPassword();
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              icon: Icon(
+                                signUpViewModel.isShowPassword.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 25,
+                                color: AppColor.textTitle,
+                              ),
                             ),
                           ),
                         ),
@@ -154,12 +160,7 @@ class _SignupViewState extends State<SignupView> {
                         RoundButton(
                           title: "Sign Up",
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const SignInView(),
-                            //   ),
-                            // );
+                            signUpViewModel.serviceCallSignUp();
                           },
                         ),
                         SizedBox(height: media.width * 0.07),
@@ -181,7 +182,7 @@ class _SignupViewState extends State<SignupView> {
                               const SizedBox(width: 5),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  signUpViewModel.goToLogin();
                                 },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,

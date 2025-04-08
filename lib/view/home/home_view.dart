@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common_widget/product_cell.dart';
 import 'package:flutter_groceries/common_widget/section_view.dart';
 import 'package:flutter_groceries/view/home/product_detail_view.dart';
+import 'package:flutter_groceries/view_model/home_view_model.dart';
+import 'package:get/get.dart';
 
 import '../../common/color_extension.dart';
 import '../../common_widget/category_cell.dart';
+import '../../view_model/cart_view_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,59 +17,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  TextEditingController textSearch = TextEditingController();
-
-  List exclusiveOfferArr = [
-    {
-      "name": "Organic Bananas",
-      "image": "assets/img/organic_banana.png",
-      "quantity": "7",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Red Apple",
-      "image": "assets/img/red_apple.png",
-      "quantity": "1",
-      "unit": "kg, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Bell Pepper Red",
-      "image": "assets/img/bell_pepper_red.png",
-      "quantity": "5",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Ginger",
-      "image": "assets/img/ginger.png",
-      "quantity": "2",
-      "unit": "pcs, Prices",
-      "price": "\$1.99",
-    },
-  ];
-
-  List categoriesOfferArr = [
-    {
-      "name": "Organic Bananas",
-      "image": "assets/img/organic_banana.png",
-    },
-    {
-      "name": "Red Apple",
-      "image": "assets/img/red_apple.png",
-    },
-    {
-      "name": "Bell Pepper Red",
-      "image": "assets/img/bell_pepper_red.png",
-    },
-    {
-      "name": "Ginger",
-      "image": "assets/img/ginger.png",
-    },
-  ];
-
-  bool isShow = false;
+  final homeViewModel = Get.put(HomeViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +69,11 @@ class _HomeViewState extends State<HomeView> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: TextField(
-                        controller: textSearch,
+                        controller: homeViewModel.textSearch,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 15),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 15,
+                          ),
                           prefixIcon: Icon(Icons.search, size: 30),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -156,20 +109,21 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: exclusiveOfferArr.length,
+                      itemCount: homeViewModel.exclusiveOfferList.length,
                       itemBuilder: (context, index) {
-                        var pObj = exclusiveOfferArr[index] as Map? ?? {};
+                        var pObj =
+                            homeViewModel.exclusiveOfferList[index] as Map? ??
+                            {};
                         return ProductCell(
                           pObj: pObj,
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProductDetailView(),
-                              ),
-                            );
+                            homeViewModel.goToProductDetail(index);
                           },
-                          onCart: () {},
+                          onCart: () {
+                            Map<String, dynamic> product =
+                                pObj.cast<String, dynamic>();
+                            Get.find<CartViewModel>().addToCart(product);
+                          },
                         );
                       },
                     ),
@@ -188,20 +142,21 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: exclusiveOfferArr.length,
+                      itemCount: homeViewModel.exclusiveOfferList.length,
                       itemBuilder: (context, index) {
-                        var pObj = exclusiveOfferArr[index] as Map? ?? {};
+                        var pObj =
+                            homeViewModel.exclusiveOfferList[index] as Map? ??
+                            {};
                         return ProductCell(
                           pObj: pObj,
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProductDetailView(),
-                              ),
-                            );
+                            homeViewModel.goToProductDetail(index);
                           },
-                          onCart: () {},
+                          onCart: () {
+                            Map<String, dynamic> product =
+                                pObj.cast<String, dynamic>();
+                            Get.find<CartViewModel>().addToCart(product);
+                          },
                         );
                       },
                     ),
@@ -220,9 +175,11 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: categoriesOfferArr.length,
+                      itemCount: homeViewModel.categoriesOfferList.length,
                       itemBuilder: (context, index) {
-                        var pObj = categoriesOfferArr[index] as Map? ?? {};
+                        var pObj =
+                            homeViewModel.categoriesOfferList[index] as Map? ??
+                            {};
                         return CategoryCell(pObj: pObj, onPressed: () {});
                       },
                     ),
@@ -234,20 +191,21 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: exclusiveOfferArr.length,
+                      itemCount: homeViewModel.exclusiveOfferList.length,
                       itemBuilder: (context, index) {
-                        var pObj = exclusiveOfferArr[index] as Map? ?? {};
+                        var pObj =
+                            homeViewModel.exclusiveOfferList[index] as Map? ??
+                            {};
                         return ProductCell(
                           pObj: pObj,
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProductDetailView(),
-                              ),
-                            );
+                            homeViewModel.goToProductDetail(index);
                           },
-                          onCart: () {},
+                          onCart: () {
+                            Map<String, dynamic> product =
+                                pObj.cast<String, dynamic>();
+                            Get.find<CartViewModel>().addToCart(product);
+                          },
                         );
                       },
                     ),

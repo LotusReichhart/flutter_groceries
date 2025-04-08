@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
 import 'package:flutter_groceries/view/login/welcome_view.dart';
+import 'package:flutter_groceries/view_model/splash_view_model.dart';
+import 'package:get/get.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -10,23 +12,12 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  final splashViewModel = Get.put(SplashViewModel());
+
   @override
   void initState() {
     super.initState();
-    fireOpenApp();
-  }
-
-  void fireOpenApp() async {
-    await Future.delayed(const Duration(seconds: 3));
-    startApp();
-  }
-
-  void startApp() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const WelcomeView()),
-      (route) => false,
-    );
+    splashViewModel.loadView();
   }
 
   @override

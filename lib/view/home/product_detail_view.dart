@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import '../../common_widget/round_button.dart';
+import '../../view_model/cart_view_model.dart';
 
 class ProductDetailView extends StatefulWidget {
-  const ProductDetailView({super.key});
+  final Map pObj;
+
+  const ProductDetailView({super.key, required this.pObj});
 
   @override
   State<ProductDetailView> createState() => _ProductDetailViewState();
@@ -37,8 +41,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                       alignment: Alignment.center,
                       child: Image.asset(
-                        "assets/img/red_apple.png",
+                        widget.pObj["image"],
                         width: media.width * 1,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     SafeArea(
@@ -86,7 +91,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Red Apple",
+                              widget.pObj["name"],
                               style: TextStyle(
                                 color: AppColor.primaryText,
                                 fontSize: 24,
@@ -105,7 +110,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ],
                       ),
                       Text(
-                        "1kg, Price",
+                        "${widget.pObj["quantity"]}${widget.pObj["unit"]}",
                         style: TextStyle(
                           color: AppColor.secondaryText,
                           fontSize: 16,
@@ -159,7 +164,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ),
                           const Spacer(),
                           Text(
-                            "\$4.99",
+                            "\$${widget.pObj["price"]}",
                             style: TextStyle(
                               color: AppColor.primaryText,
                               fontSize: 24,
@@ -312,7 +317,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      RoundButton(title: "Add To Basket", onPressed: () {}),
+                      RoundButton(
+                        title: "Add To Basket",
+                        onPressed: () {
+                          Map<String, dynamic> product =
+                              widget.pObj.cast<String, dynamic>();
+                          Get.find<CartViewModel>().addToCart(product);
+                        },
+                      ),
                     ],
                   ),
                 ),

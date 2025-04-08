@@ -14,7 +14,7 @@ class ProductCell extends StatelessWidget {
     required this.onPressed,
     required this.onCart,
     this.margin = 8,
-    this.weight = 180
+    this.weight = 180,
   });
 
   @override
@@ -65,7 +65,7 @@ class ProductCell extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  pObj["price"],
+                  "\$${pObj["price"]}",
                   style: TextStyle(
                     color: AppColor.primaryText,
                     fontSize: 18,

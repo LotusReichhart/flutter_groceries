@@ -38,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
             elevation: 0,
             leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                loginViewModel.goBack();
               },
               icon: Icon(
                 Icons.arrow_back_ios_new,
@@ -162,12 +162,7 @@ class _LoginViewState extends State<LoginView> {
                               const SizedBox(width: 5),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SignupView(),
-                                    ),
-                                  );
+                                  loginViewModel.goToSignUp();
                                 },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,

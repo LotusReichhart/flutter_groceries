@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_groceries/common_widget/round_button.dart';
-import 'package:flutter_groceries/view/login/sign_in_view.dart';
+import 'package:flutter_groceries/view_model/welcome_view_model.dart';
+import 'package:get/get.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
@@ -11,6 +12,8 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> {
+  final welcomeViewModel = Get.put(WelcomeViewModel());
+
   @override
   void initState() {
     super.initState();
@@ -64,12 +67,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                   child: RoundButton(
                     title: "Get Started",
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInView(),
-                        ),
-                      );
+                      welcomeViewModel.goToSignIn();
                     },
                   ),
                 ),

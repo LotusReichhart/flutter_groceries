@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_groceries/common/globs.dart';
-import 'package:flutter_groceries/common/service_call.dart';
-import 'package:flutter_groceries/view/login/signup_view.dart';
+import 'package:flutter_groceries/view/login/login_view.dart';
 import 'package:get/get.dart';
 
-import '../view/main_tabview/main_tabview.dart';
-
-class LoginViewModel extends GetxController {
+class SignUpViewModel extends GetxController {
+  final textUsername = TextEditingController().obs;
   final textEmail = TextEditingController().obs;
   final textPassword = TextEditingController().obs;
   final isShowPassword = false.obs;
@@ -19,13 +17,13 @@ class LoginViewModel extends GetxController {
     super.onInit();
 
     if (kDebugMode) {
-      print("LoginViewModel onInit");
+      print("SignUpViewModel onInit");
     }
     textEmail.value.text = "test@gmail.com";
     textPassword.value.text = "123456";
   }
 
-  void serviceCallLogin() async {
+  void serviceCallSignUp() async {
     Globs.showHUD();
     // ServiceCall.post(
     //   {"email": textEmail.value.text, "password": textPassword.value.text},
@@ -43,11 +41,11 @@ class LoginViewModel extends GetxController {
     // }
     await Future.delayed(const Duration(seconds: 3));
     Globs.hideHUD();
-    Get.to(() => const MainTabview());
+    Get.to(() => const LoginView());
   }
 
-  void goToSignUp() {
-    Get.to(() => const SignupView());
+  void goToLogin() {
+    Get.to(() => const LoginView());
   }
 
   void goBack() {
