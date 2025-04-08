@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/views/login/signup_view.dart';
+import 'package:flutter_groceries/view/login/signup_view.dart';
+import 'package:flutter_groceries/view/main_tabview/main_tabview.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../common_widget/line_text_field.dart';
 import '../../common_widget/round_button.dart';
+import '../../view_model/login_view_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,10 +16,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  TextEditingController textEmail = TextEditingController();
-  TextEditingController textPassword = TextEditingController();
-
-  bool isShow = false;
+  final loginViewModel = Get.put(LoginViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -86,30 +87,32 @@ class _LoginViewState extends State<LoginView> {
                           title: "Email",
                           placeholder: "Enter your email address",
                           keyboardType: TextInputType.emailAddress,
-                          controller: textEmail,
+                          controller: loginViewModel.textEmail.value,
                         ),
                         SizedBox(height: media.width * 0.05),
-                        LineTextField(
-                          title: "Password",
-                          placeholder: "Enter your password",
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: !isShow,
-                          controller: textPassword,
-                          right: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isShow = !isShow;
-                              });
-                            },
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            icon: Icon(
-                              isShow ? Icons.visibility : Icons.visibility_off,
-                              size: 25,
-                              color: AppColor.textTitle,
+                        Obx(
+                          () => LineTextField(
+                            title: "Password",
+                            placeholder: "Enter your password",
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: !loginViewModel.isShowPassword.value,
+                            controller: loginViewModel.textPassword.value,
+                            right: IconButton(
+                              onPressed: () {
+                                loginViewModel.showPassword();
+                              },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              icon: Icon(
+                                loginViewModel.isShowPassword.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 25,
+                                color: AppColor.textTitle,
+                              ),
                             ),
                           ),
                         ),
@@ -137,12 +140,7 @@ class _LoginViewState extends State<LoginView> {
                         RoundButton(
                           title: "Log In",
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const SignInView(),
-                            //   ),
-                            // );
+                            loginViewModel.serviceCallLogin();
                           },
                         ),
                         SizedBox(height: media.width * 0.07),

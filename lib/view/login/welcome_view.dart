@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_groceries/common_widget/round_button.dart';
-import 'package:flutter_groceries/views/login/sign_in_view.dart';
+import 'package:flutter_groceries/view/login/sign_in_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});

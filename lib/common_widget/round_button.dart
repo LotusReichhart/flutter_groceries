@@ -3,9 +3,15 @@ import 'package:flutter_groceries/common/color_extension.dart';
 
 class RoundButton extends StatelessWidget {
   final String title;
+  final Color? bgColor;
   final VoidCallback onPressed;
 
-  const RoundButton({super.key, required this.title, required this.onPressed});
+  const RoundButton({
+    super.key,
+    required this.title,
+    this.bgColor,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,7 @@ class RoundButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
       minWidth: double.maxFinite,
       elevation: 0.1,
-      color: AppColor.primary,
+      color: bgColor ?? AppColor.primary,
       child: Text(
         title,
         style: const TextStyle(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/views/login/select_location_view.dart';
+import 'package:flutter_groceries/view/login/select_location_view.dart';
 
 import '../../common_widget/line_text_field.dart';
 

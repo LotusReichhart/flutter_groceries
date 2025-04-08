@@ -2,7 +2,10 @@ import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
 import 'package:flutter_groceries/common_widget/round_button.dart';
-import 'package:flutter_groceries/views/login/verification_view.dart';
+import 'package:flutter_groceries/view/login/login_view.dart';
+import 'package:flutter_groceries/view/login/signup_view.dart';
+import 'package:flutter_groceries/view/login/verification_view.dart';
+import 'package:get/get.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -33,22 +36,24 @@ class _SignInViewState extends State<SignInView> {
         alignment: Alignment.topCenter,
         children: [
           Image.asset("assets/img/sign_in_top.png", width: media.width),
-
           SingleChildScrollView(
             child: SafeArea(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: media.width * 0.8),
-                  Text(
-                    "Get your groceries\nwith nectar",
-                    style: TextStyle(
-                      color: AppColor.primaryText,
-                      fontSize: 26,
-                      fontWeight: FontWeight.w600,
+                  SizedBox(height: media.width * 0.5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Get your groceries\nwith nectar",
+                      style: TextStyle(
+                        color: AppColor.primaryText,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -113,15 +118,42 @@ class _SignInViewState extends State<SignInView> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 25),
-                  Text(
-                    "Or connect with social media",
-                    style: TextStyle(
-                      color: AppColor.secondaryText,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: RoundButton(
+                      title: "Sign In With Email",
+                      bgColor: const Color(0xff5383EC),
+                      onPressed: () {
+                        Get.to(() => const LoginView());
+                      },
                     ),
-                    textAlign: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: RoundButton(
+                      title: "Sign Up With Email",
+                      onPressed: () {
+                        Get.to(() => const SignupView());
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Or connect with social media",
+                      style: TextStyle(
+                        color: AppColor.secondaryText,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   const SizedBox(height: 25),
                   Padding(

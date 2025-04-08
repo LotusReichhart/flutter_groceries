@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/views/login/welcome_view.dart';
+import 'package:flutter_groceries/view/login/welcome_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
