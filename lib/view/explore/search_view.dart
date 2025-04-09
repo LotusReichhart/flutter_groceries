@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_groceries/common_widget/explore_cell.dart';
 import 'package:flutter_groceries/common_widget/product_cell.dart';
-import 'package:flutter_groceries/view/explore/explore_detail_view.dart';
+import 'package:get/get.dart';
 import '../../common/color_extension.dart';
+import '../../view_model/product_view_model.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -12,44 +12,11 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  TextEditingController textSearch = TextEditingController();
-
-  List exclusiveOfferArr = [
-    {
-      "name": "Organic Bananas",
-      "image": "assets/img/organic_banana.png",
-      "quantity": "7",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Red Apple",
-      "image": "assets/img/red_apple.png",
-      "quantity": "1",
-      "unit": "kg, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Bell Pepper Red",
-      "image": "assets/img/bell_pepper_red.png",
-      "quantity": "5",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Ginger",
-      "image": "assets/img/ginger.png",
-      "quantity": "2",
-      "unit": "pcs, Prices",
-      "price": "\$1.99",
-    },
-  ];
-
-  bool isShow = false;
+  final productViewModel = Get.find<ProductViewModel>();
+  final textSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -90,16 +57,19 @@ class _SearchViewState extends State<SearchView> {
               ),
               child: TextField(
                 controller: textSearch,
+                onChanged: (value) {
+                  productViewModel.findProductByName(value);
+                },
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(vertical: 15),
                   prefixIcon: Icon(Icons.search, size: 30),
                   suffixIcon: IconButton(
                     onPressed: () {
-                      textSearch.text == "";
+                      textSearch.clear();
+                      productViewModel.findProductByName("");
                       FocusScope.of(context).requestFocus(FocusNode());
-                      setState(() {});
                     },
-                    icon: Icon(Icons.cancel, size: 20,color: AppColor.placeholder,),
+                    icon: Icon(Icons.cancel, size: 20, color: AppColor.placeholder),
                   ),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -116,34 +86,30 @@ class _SearchViewState extends State<SearchView> {
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
-              itemCount: exclusiveOfferArr.length,
-              itemBuilder: (context, index) {
-                var pObj = exclusiveOfferArr[index] as Map? ?? {};
-                return ProductCell(
-                  pObj: pObj,
-                  margin: 0,
-                  weight: 1,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ExploreDetailView(eObj: pObj),
-                      ),
-                    );
-                  },
-                  onCart: () {},
-                );
-              },
-            ),
+            child: Obx(() {
+              return GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                ),
+                itemCount: productViewModel.productSearchList.length,
+                itemBuilder: (context, index) {
+                  final product = productViewModel.productSearchList[index];
+                  return ProductCell(
+                    productModel: product,
+                    margin: 0,
+                    weight: 1,
+                    onPressed: () {
+                      productViewModel.goToProductDetail(product.id);
+                    },
+                    onCart: () {},
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),

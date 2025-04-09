@@ -3,7 +3,6 @@ import 'package:flutter_groceries/common_widget/cart_item_row.dart';
 import 'package:flutter_groceries/common_widget/round_button.dart';
 import 'package:flutter_groceries/view_model/cart_view_model.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../common/color_extension.dart';
 
@@ -45,13 +44,16 @@ class _CartViewState extends State<CartView> {
                   (context, index) =>
                       const Divider(color: Colors.black26, height: 1),
               itemBuilder: (context, index) {
-                var pObj = cartViewModel.cartItems[index] as Map? ?? {};
-                Map<String, dynamic> product = pObj.cast<String, dynamic>();
+                final cart = cartViewModel.cartItems[index];
                 return CartItemRow(
-                  pObj: product,
+                  cartModel: cart,
                   onClear: () {
-                    cartViewModel.removeFromCart(product);
+                    cartViewModel.removeFromCart(cart);
                   },
+                  onIncrease:
+                      () => cartViewModel.increaseQuantity(cart.productModel),
+                  onDecrease:
+                      () => cartViewModel.decreaseQuantity(cart.productModel),
                 );
               },
             ),

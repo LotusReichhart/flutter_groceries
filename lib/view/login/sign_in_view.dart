@@ -2,9 +2,6 @@ import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
 import 'package:flutter_groceries/common_widget/round_button.dart';
-import 'package:flutter_groceries/view/login/login_view.dart';
-import 'package:flutter_groceries/view/login/signup_view.dart';
-import 'package:flutter_groceries/view/login/verification_view.dart';
 import 'package:flutter_groceries/view_model/sign_in_view_model.dart';
 import 'package:get/get.dart';
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common_widget/product_cell.dart';
 import 'package:flutter_groceries/common_widget/section_view.dart';
-import 'package:flutter_groceries/view/home/product_detail_view.dart';
+import 'package:flutter_groceries/view_model/category_view_model.dart';
 import 'package:flutter_groceries/view_model/home_view_model.dart';
+import 'package:flutter_groceries/view_model/product_view_model.dart';
 import 'package:get/get.dart';
 
 import '../../common/color_extension.dart';
@@ -18,10 +19,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final homeViewModel = Get.put(HomeViewModel());
+  final cartViewModel = Get.find<CartViewModel>();
+  final categoryViewModel = Get.find<CategoryViewModel>();
+  final productViewModel = Get.find<ProductViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -109,20 +112,16 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: homeViewModel.exclusiveOfferList.length,
+                      itemCount: productViewModel.productList.length,
                       itemBuilder: (context, index) {
-                        var pObj =
-                            homeViewModel.exclusiveOfferList[index] as Map? ??
-                            {};
+                        final product = productViewModel.productList[index];
                         return ProductCell(
-                          pObj: pObj,
+                          productModel: product,
                           onPressed: () {
-                            homeViewModel.goToProductDetail(index);
+                            productViewModel.goToProductDetail(product.id);
                           },
                           onCart: () {
-                            Map<String, dynamic> product =
-                                pObj.cast<String, dynamic>();
-                            Get.find<CartViewModel>().addToCart(product);
+                            cartViewModel.addToCart(product);
                           },
                         );
                       },
@@ -142,20 +141,16 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: homeViewModel.exclusiveOfferList.length,
+                      itemCount: productViewModel.productList.length,
                       itemBuilder: (context, index) {
-                        var pObj =
-                            homeViewModel.exclusiveOfferList[index] as Map? ??
-                            {};
+                        final product = productViewModel.productList[index];
                         return ProductCell(
-                          pObj: pObj,
+                          productModel: product,
                           onPressed: () {
-                            homeViewModel.goToProductDetail(index);
+                             productViewModel.goToProductDetail(product.id);
                           },
                           onCart: () {
-                            Map<String, dynamic> product =
-                                pObj.cast<String, dynamic>();
-                            Get.find<CartViewModel>().addToCart(product);
+                            cartViewModel.addToCart(product);
                           },
                         );
                       },
@@ -175,12 +170,13 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: homeViewModel.categoriesOfferList.length,
+                      itemCount: categoryViewModel.categoryList.length,
                       itemBuilder: (context, index) {
-                        var pObj =
-                            homeViewModel.categoriesOfferList[index] as Map? ??
-                            {};
-                        return CategoryCell(pObj: pObj, onPressed: () {});
+                        final category = categoryViewModel.categoryList[index];
+                        return CategoryCell(
+                          categoryModel: category,
+                          onPressed: () {},
+                        );
                       },
                     ),
                   ),
@@ -191,20 +187,16 @@ class _HomeViewState extends State<HomeView> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: homeViewModel.exclusiveOfferList.length,
+                      itemCount: productViewModel.productList.length,
                       itemBuilder: (context, index) {
-                        var pObj =
-                            homeViewModel.exclusiveOfferList[index] as Map? ??
-                            {};
+                        final product = productViewModel.productList[index];
                         return ProductCell(
-                          pObj: pObj,
+                          productModel: product,
                           onPressed: () {
-                            homeViewModel.goToProductDetail(index);
+                             productViewModel.goToProductDetail(product.id);
                           },
                           onCart: () {
-                            Map<String, dynamic> product =
-                                pObj.cast<String, dynamic>();
-                            Get.find<CartViewModel>().addToCart(product);
+                            cartViewModel.addToCart(product);
                           },
                         );
                       },

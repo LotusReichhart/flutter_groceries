@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:flutter_groceries/model/category_model.dart';
 
 class ExploreCell extends StatelessWidget {
-  final Map pObj;
+  final CategoryModel categoryModel;
   final VoidCallback onPressed;
 
-  const ExploreCell({super.key, required this.pObj, required this.onPressed});
+  const ExploreCell({super.key, required this.categoryModel, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    var color = (pObj["color"] as Color? ?? AppColor.primary);
+    var color = (categoryModel.color as Color? ?? AppColor.primary);
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(15),
@@ -25,14 +26,14 @@ class ExploreCell extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              pObj["image"],
+              categoryModel.imageUrl,
               width: 90,
               height: 90,
               fit: BoxFit.contain,
             ),
             const Spacer(),
             Text(
-              pObj["name"],
+              categoryModel.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColor.primaryText,

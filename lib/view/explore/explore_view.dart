@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common_widget/explore_cell.dart';
 import 'package:flutter_groceries/view/explore/explore_detail_view.dart';
 import 'package:flutter_groceries/view/explore/search_view.dart';
+import 'package:get/get.dart';
 import '../../common/color_extension.dart';
+import '../../view_model/category_view_model.dart';
 
 class ExploreView extends StatefulWidget {
   const ExploreView({super.key});
@@ -13,31 +15,9 @@ class ExploreView extends StatefulWidget {
 
 class _ExploreViewState extends State<ExploreView> {
   TextEditingController textSearch = TextEditingController();
-
-  List categoriesOfferArr = [
-    {
-      "name": "Organic Bananas",
-      "image": "assets/img/organic_banana.png",
-      "color": const Color(0xff538175),
-    },
-    {
-      "name": "Red Apple",
-      "image": "assets/img/red_apple.png",
-      "color": const Color(0xffF8A44C),
-    },
-    {
-      "name": "Bell Pepper Red",
-      "image": "assets/img/bell_pepper_red.png",
-      "color": const Color(0xffF7A593),
-    },
-    {
-      "name": "Ginger",
-      "image": "assets/img/ginger.png",
-      "color": const Color(0xffD3B0E0),
-    },
-  ];
-
   bool isShow = false;
+
+  final categoryViewModel = Get.find<CategoryViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +80,6 @@ class _ExploreViewState extends State<ExploreView> {
           const SizedBox(height: 25),
           Expanded(
             child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -108,18 +87,13 @@ class _ExploreViewState extends State<ExploreView> {
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
               ),
-              itemCount: categoriesOfferArr.length,
+              itemCount: categoryViewModel.categoryList.length,
               itemBuilder: (context, index) {
-                var pObj = categoriesOfferArr[index] as Map? ?? {};
+                final category = categoryViewModel.categoryList[index];
                 return ExploreCell(
-                  pObj: pObj,
+                  categoryModel: category,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ExploreDetailView(eObj: pObj),
-                      ),
-                    );
+                    Get.to(() => ExploreDetailView(categoryModel: category));
                   },
                 );
               },

@@ -4,20 +4,25 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import '../../common_widget/round_button.dart';
 import '../../view_model/cart_view_model.dart';
+import '../../view_model/product_view_model.dart';
 
 class ProductDetailView extends StatefulWidget {
-  final Map pObj;
+  final int id;
 
-  const ProductDetailView({super.key, required this.pObj});
+  const ProductDetailView({super.key, required this.id});
 
   @override
   State<ProductDetailView> createState() => _ProductDetailViewState();
 }
 
 class _ProductDetailViewState extends State<ProductDetailView> {
+  final productViewModel = Get.find<ProductViewModel>();
+  final cartViewModel = Get.find<CartViewModel>();
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
+    final product = productViewModel.getProductById(widget.id);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -41,7 +46,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                       alignment: Alignment.center,
                       child: Image.asset(
-                        widget.pObj["image"],
+                        product != null ? product.imageUrl : "",
                         width: media.width * 1,
                         fit: BoxFit.cover,
                       ),
@@ -91,7 +96,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         children: [
                           Expanded(
                             child: Text(
-                              widget.pObj["name"],
+                              product != null ? product.name : "",
                               style: TextStyle(
                                 color: AppColor.primaryText,
                                 fontSize: 24,
@@ -110,7 +115,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ],
                       ),
                       Text(
-                        "${widget.pObj["quantity"]}${widget.pObj["unit"]}",
+                        product != null ? product.unit : "",
                         style: TextStyle(
                           color: AppColor.secondaryText,
                           fontSize: 16,
@@ -164,7 +169,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ),
                           const Spacer(),
                           Text(
-                            "\$${widget.pObj["price"]}",
+                            product != null
+                                ? "\$${product.price.toStringAsFixed(2)}"
+                                : "\$0.00",
                             style: TextStyle(
                               color: AppColor.primaryText,
                               fontSize: 24,
@@ -202,10 +209,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ],
                       ),
                       Text(
-                        "Apples are nutritious. "
-                        "Apples may be good for weight loss. "
-                        "apples may be good for your heart. "
-                        "As part of a healtful and varied diet.",
+                        product != null ? product.detail : "",
                         style: TextStyle(
                           color: AppColor.secondaryText,
                           fontSize: 14,
@@ -320,9 +324,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       RoundButton(
                         title: "Add To Basket",
                         onPressed: () {
-                          Map<String, dynamic> product =
-                              widget.pObj.cast<String, dynamic>();
-                          Get.find<CartViewModel>().addToCart(product);
+                          product != null
+                              ? cartViewModel.addToCart(product)
+                              : {};
                         },
                       ),
                     ],

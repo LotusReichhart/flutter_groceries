@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:flutter_groceries/model/product_model.dart';
 
 class ProductCell extends StatelessWidget {
-  final Map pObj;
+  final ProductModel productModel;
   final VoidCallback onPressed;
   final VoidCallback onCart;
   final double margin;
@@ -10,7 +11,7 @@ class ProductCell extends StatelessWidget {
 
   const ProductCell({
     super.key,
-    required this.pObj,
+    required this.productModel,
     required this.onPressed,
     required this.onCart,
     this.margin = 8,
@@ -36,7 +37,7 @@ class ProductCell extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Image.asset(
-                pObj["image"],
+                productModel.imageUrl,
                 width: 100,
                 height: 80,
                 fit: BoxFit.contain,
@@ -44,7 +45,7 @@ class ProductCell extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Text(
-              pObj["name"],
+              productModel.name,
               style: TextStyle(
                 color: AppColor.primaryText,
                 fontSize: 16,
@@ -53,7 +54,7 @@ class ProductCell extends StatelessWidget {
             ),
             const SizedBox(height: 3),
             Text(
-              "${pObj["quantity"]} ${pObj["unit"]}",
+              productModel.unit,
               style: TextStyle(
                 color: AppColor.secondaryText,
                 fontSize: 14,
@@ -65,7 +66,7 @@ class ProductCell extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$${pObj["price"]}",
+                  "\$${productModel.price}",
                   style: TextStyle(
                     color: AppColor.primaryText,
                     fontSize: 18,

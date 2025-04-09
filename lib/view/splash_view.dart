@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/view/login/welcome_view.dart';
 import 'package:flutter_groceries/view_model/splash_view_model.dart';
 import 'package:get/get.dart';
 

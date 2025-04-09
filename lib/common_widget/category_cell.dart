@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:flutter_groceries/model/category_model.dart';
 
 class CategoryCell extends StatelessWidget {
-  final Map pObj;
+  final CategoryModel categoryModel;
   final VoidCallback onPressed;
 
-  const CategoryCell({super.key, required this.pObj, required this.onPressed});
+  const CategoryCell({
+    super.key,
+    required this.categoryModel,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,9 @@ class CategoryCell extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 8),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: (pObj["color"] as Color? ?? AppColor.primary).withValues(alpha: 0.3),
+          color: (categoryModel.color as Color? ?? AppColor.primary).withValues(
+            alpha: 0.3,
+          ),
           border: Border.all(color: AppColor.placeholder, width: 0.5),
           borderRadius: BorderRadius.circular(15),
         ),
@@ -27,7 +34,7 @@ class CategoryCell extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  pObj["image"],
+                  categoryModel.imageUrl,
                   width: 70,
                   height: 70,
                   fit: BoxFit.contain,
@@ -35,7 +42,7 @@ class CategoryCell extends StatelessWidget {
                 const SizedBox(width: 5),
                 Expanded(
                   child: Text(
-                    pObj["name"],
+                    categoryModel.name,
                     style: TextStyle(
                       color: AppColor.primaryText,
                       fontSize: 16,

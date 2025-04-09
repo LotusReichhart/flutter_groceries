@@ -7,6 +7,8 @@ import 'package:flutter_groceries/common/app_http_overrides.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
 import 'package:flutter_groceries/view/splash_view.dart';
 import 'package:flutter_groceries/view_model/cart_view_model.dart';
+import 'package:flutter_groceries/view_model/category_view_model.dart';
+import 'package:flutter_groceries/view_model/product_view_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +19,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   Get.put<CartViewModel>(CartViewModel());
+  Get.put<ProductViewModel>(ProductViewModel());
+  Get.put<CategoryViewModel>(CategoryViewModel());
 
   runApp(const MyApp());
 }

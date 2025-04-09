@@ -1,51 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_groceries/common_widget/explore_cell.dart';
 import 'package:flutter_groceries/common_widget/product_cell.dart';
+import 'package:flutter_groceries/model/category_model.dart';
+import 'package:get/get.dart';
 import '../../common/color_extension.dart';
+import '../../view_model/cart_view_model.dart';
+import '../../view_model/product_view_model.dart';
 
 class ExploreDetailView extends StatefulWidget {
-  final Map eObj;
+  final CategoryModel categoryModel;
 
-  const ExploreDetailView({super.key, required this.eObj});
+  const ExploreDetailView({super.key, required this.categoryModel});
 
   @override
   State<ExploreDetailView> createState() => _ExploreDetailViewState();
 }
 
 class _ExploreDetailViewState extends State<ExploreDetailView> {
-  List exclusiveOfferArr = [
-    {
-      "name": "Organic Bananas",
-      "image": "assets/img/organic_banana.png",
-      "quantity": "7",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Red Apple",
-      "image": "assets/img/red_apple.png",
-      "quantity": "1",
-      "unit": "kg, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Bell Pepper Red",
-      "image": "assets/img/bell_pepper_red.png",
-      "quantity": "5",
-      "unit": "pcs, Prices",
-      "price": "\$4.99",
-    },
-    {
-      "name": "Ginger",
-      "image": "assets/img/ginger.png",
-      "quantity": "2",
-      "unit": "pcs, Prices",
-      "price": "\$1.99",
-    },
-  ];
+  final productViewModel = Get.find<ProductViewModel>();
+  final cartViewModel = Get.find<CartViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    final productList = productViewModel.getProductsByCategoryId(widget.categoryModel.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -65,7 +41,7 @@ class _ExploreDetailViewState extends State<ExploreDetailView> {
           ),
         ],
         title: Text(
-          widget.eObj["name"],
+          widget.categoryModel.name,
           style: TextStyle(
             color: AppColor.primaryText,
             fontSize: 20,
@@ -81,7 +57,6 @@ class _ExploreDetailViewState extends State<ExploreDetailView> {
             child: SizedBox(
               height: 230,
               child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -89,22 +64,19 @@ class _ExploreDetailViewState extends State<ExploreDetailView> {
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 15,
                 ),
-                itemCount: exclusiveOfferArr.length,
+                itemCount: productList.length,
                 itemBuilder: (context, index) {
-                  var eObj = exclusiveOfferArr[index] as Map? ?? {};
+                  final product = productList[index];
                   return ProductCell(
-                    pObj: eObj,
+                    productModel: product,
                     margin: 0,
                     weight: double.maxFinite,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ExploreDetailView(eObj: eObj),
-                        ),
-                      );
+                      productViewModel.goToProductDetail(product.id);
                     },
-                    onCart: () {},
+                    onCart: () {
+                      cartViewModel.addToCart(product);
+                    },
                   );
                 },
               ),

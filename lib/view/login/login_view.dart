@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
-import 'package:flutter_groceries/view/login/signup_view.dart';
-import 'package:flutter_groceries/view/main_tabview/main_tabview.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../common_widget/line_text_field.dart';
 import '../../common_widget/round_button.dart';
 import '../../view_model/login_view_model.dart';

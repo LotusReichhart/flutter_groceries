@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_groceries/common/color_extension.dart';
+import 'package:flutter_groceries/model/cart_model.dart';
 
 class CartItemRow extends StatelessWidget {
-  final Map pObj;
+  final CartModel cartModel;
   final VoidCallback onClear;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
 
-  const CartItemRow({super.key, required this.pObj, required this.onClear});
+  const CartItemRow({
+    super.key,
+    required this.cartModel,
+    required this.onClear,
+    required this.onIncrease,
+    required this.onDecrease,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,7 @@ class CartItemRow extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              pObj["image"],
+              cartModel.productModel.imageUrl,
               width: 70,
               height: 65,
               fit: BoxFit.contain,
@@ -37,7 +46,7 @@ class CartItemRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            pObj["name"],
+                            cartModel.productModel.name,
                             style: TextStyle(
                               color: AppColor.primaryText,
                               fontSize: 16,
@@ -46,7 +55,7 @@ class CartItemRow extends StatelessWidget {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            "${pObj["unit"]}",
+                            cartModel.productModel.unit,
                             style: TextStyle(
                               color: AppColor.secondaryText,
                               fontSize: 14,
@@ -75,7 +84,7 @@ class CartItemRow extends StatelessWidget {
                       Row(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: onDecrease,
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               width: 45,
@@ -96,7 +105,7 @@ class CartItemRow extends StatelessWidget {
                           ),
                           const SizedBox(width: 15),
                           Text(
-                            "1",
+                            cartModel.quantity.toString(),
                             style: TextStyle(
                               color: AppColor.primaryText,
                               fontSize: 18,
@@ -105,7 +114,7 @@ class CartItemRow extends StatelessWidget {
                           ),
                           const SizedBox(width: 15),
                           InkWell(
-                            onTap: () {},
+                            onTap: onIncrease,
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               width: 45,
@@ -131,7 +140,7 @@ class CartItemRow extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "\$${pObj["price"]}",
+                        "\$${(cartModel.productModel.price * cartModel.quantity).toStringAsFixed(2)}",
                         style: TextStyle(
                           color: AppColor.primaryText,
                           fontSize: 20,
